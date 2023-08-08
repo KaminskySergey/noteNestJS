@@ -15,7 +15,7 @@ import { ReviewService } from './review.service';
 import { ReviewDto } from './dto/review.dto';
 import { REVIEW_NOT_FOUND } from './review.constans';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { UserEmail } from 'src/decorators/user-email.decorators';
+import { IdValidationPipe } from 'src/pipes/add-validation.pipe';
 
 @Controller('review')
 export class ReviewController {
@@ -37,18 +37,16 @@ export class ReviewController {
     return deletedEl;
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('product/:productId')
-  async getByProduct(
-    @Param('productId') productId: string,
-    @UserEmail() email: string,
-  ) {
-    console.log(email, '4444444444444444444444444');
+  async getByProduct(@Param('productId', IdValidationPipe) productId: string) {
     return this.reviewService.findByProductId(productId);
   }
 
-  @Delete('product/:productId')
-  async deleteByProduct(@Param('productId') productId: string) {
-    return await this.reviewService.deleteByProductId(productId);
-  }
+  // @Delete('product/:productId')
+  // async deleteByProduct(
+  //   @Param('productId', IdValidationPipe) productId: string,
+  // ) {
+  //   return await this.reviewService.deleteByProductId(productId);
+  // }
 }

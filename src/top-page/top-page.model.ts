@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-enum TopLevelCategory {
+export enum TopLevelCategory {
   Courses,
   Services,
   Books,
@@ -40,11 +40,17 @@ export class TopPage {
   @Prop()
   secondCategory: string;
 
-  @Prop()
+  @Prop({ unique: true })
   alias: string;
 
   @Prop()
   title: string;
+
+  @Prop()
+  metaTitle: string;
+
+  @Prop()
+  metaDescription: string;
 
   @Prop()
   category: string;
@@ -53,15 +59,15 @@ export class TopPage {
   hh?: HhData;
 
   @Prop({ type: () => [TopPageAdvantage] })
-  advantages: TopPageAdvantage[];
+  advantages?: TopPageAdvantage[];
 
   @Prop()
-  seoText: string;
+  seoText?: string;
 
   @Prop()
   tagsTitle: string;
 
-  @Prop({ type: [String] })
+  @Prop({ type: () => [String] })
   tags: string[];
 }
 
